@@ -3,17 +3,22 @@ from django.contrib.auth import get_user_model
 
 from apps.user.models import CustomUser
 
+# serializador base
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = '__all__'
 
-    # create a new user with encrypted password
+    # sobrescribiendo el metodo create para encriptar la contraseña
     def create(self, validated_data):
         user = CustomUser(**validated_data)
         user.set_password(validated_data.get('password'))
         user.save()
         return user
+
+# serializador para listado
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -21,7 +26,7 @@ class UserListSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
-    # overriding the to_representation method
+    # sobrescribiendo el metodo to_representation para perzonalizar la data serializada
     def to_representation(self, instance):
         return {
             'id': instance['id'],
@@ -34,11 +39,17 @@ class UserListSerializer(serializers.ModelSerializer):
             'nationality': instance['nationality'],
             'date_of_birth': instance['date_of_birth'],
         }
-    
+
+
+# serializador para user login
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email',
+                  'date_joined', 'passport_number', 'nationality', 'date_of_birth')
+
+# serializador para login
+
 
 class EmailLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -53,12 +64,14 @@ class EmailLoginSerializer(serializers.Serializer):
 
             if user and user.check_password(password):
                 if not user.is_active:
-                    raise serializers.ValidationError("Este usuario no puede iniciar sesión.")
+                    raise serializers.ValidationError(
+                        "Este usuario no puede iniciar sesión.")
                 data['user'] = user
             else:
-                raise serializers.ValidationError("Usuario o contraseña no válidos.")
+                raise serializers.ValidationError(
+                    "Usuario o contraseña no válidos.")
         else:
-            raise serializers.ValidationError("Debe proporcionar una dirección de correo electrónico y contraseña.")
+            raise serializers.ValidationError(
+                "Debe proporcionar una dirección de correo electrónico y contraseña.")
 
         return data
-    
