@@ -8,7 +8,7 @@ import Button from "../../../components/Buttons/Button/Button.jsx";
 import Title from "../../../components/Texts/Title/Title.jsx";
 import TextContent from "../../../components/Texts/TextContent/TextContent.jsx";
 import { Link } from "react-router-dom";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 const LoginScreen = () => {
   const loading = false;
@@ -25,7 +25,7 @@ const LoginScreen = () => {
 
   return (
     <div className="login-container">
-      <div className="form-container">
+      <Box className="form-container" mt={"20vh"}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Title content="¡Hola otra vez!" />
           <TextContent content="Bienvenido" gray marginBottom="12" />
@@ -68,7 +68,7 @@ const LoginScreen = () => {
             </Flex>
           </Link>
         </form>
-      </div>
+      </Box>
     </div>
   );
 };

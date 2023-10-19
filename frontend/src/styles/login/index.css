@@ -9,20 +9,17 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  /* align-content: space-around; */
 }
 
 .form-container form {
-  margin-top: 20vh;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   gap: 15px;
-  /* align-self: flex-end; */
 }
 
 /* Title */
@@ -34,8 +31,15 @@
   margin-bottom: 30px;
 }
 
+.title-form-container {
+  text-align: center;
+}
 @media (min-width: 600px) {
   .form-container form {
     width: 400px;
+  }
+
+  .title-form-container {
+    width: 800px;
   }
 }

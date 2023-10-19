@@ -8,7 +8,7 @@ import Button from "../../../components/Buttons/Button/Button.jsx";
 import Title from "../../../components/Texts/Title/Title.jsx";
 import TextContent from "../../../components/Texts/TextContent/TextContent.jsx";
 import { Link } from "react-router-dom";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 const RegisterScreen = () => {
   const loading = false;
@@ -25,10 +25,58 @@ const RegisterScreen = () => {
 
   return (
     <div className="login-container">
-      <div className="form-container">
+      <Box className="form-container" mt={"1vh"}>
+        <Title
+          sizeBase="3xl"
+          smBase="3xl"
+          className={"title-form-container"}
+          content="Únete ahora para explorar los mejores viajes del mundo. ¡Regístrate y comienza a planificar tus próximas aventuras!"
+        />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Title content="¡Hola otra vez!" />
-          <TextContent content="Bienvenido" gray marginBottom="12" />
+          <InputFormValidation
+            Icon={PerfilIcon}
+            placeholder="¿Como te llamas?"
+            errors={errors}
+            register={register}
+            key_name="text"
+            label="Ingresa tu nombre"
+            type="text"
+            minLength={5}
+          />
+
+          <InputFormValidation
+            Icon={PerfilIcon}
+            placeholder="¿Cual es tu apellido?"
+            errors={errors}
+            register={register}
+            key_name="text"
+            label="Ingresa tu apellido"
+            type="text"
+            minLength={5}
+          />
+
+          <InputFormValidation
+            Icon={PerfilIcon}
+            placeholder="¿Cual es la fecha de tu cumpleaños?"
+            errors={errors}
+            register={register}
+            key_name="text"
+            label="Ingresa tu fecha de cumpleaños"
+            type="date"
+            minLength={5}
+          />
+
+          <InputFormValidation
+            Icon={PerfilIcon}
+            placeholder="¿Cual es tu nacionalidad?"
+            errors={errors}
+            register={register}
+            key_name="text"
+            label="Ingresa tu nacionalidad"
+            type="text"
+            minLength={5}
+          />
+
           <InputFormValidation
             Icon={PerfilIcon}
             placeholder="Ingresa tu correo"
@@ -37,8 +85,20 @@ const RegisterScreen = () => {
             key_name="email"
             label="Escribe tu correo"
             type="email"
-            minLength={1}
+            minLength={0}
           />
+
+          <InputFormValidation
+            Icon={PasswordIcon}
+            placeholder="Ingresa el numero de documento de viaje"
+            errors={errors}
+            register={register}
+            key_name="number"
+            label="Escribe el numero de documento de viaje"
+            type="text"
+            minLength={6}
+          />
+
           <InputFormValidation
             Icon={PasswordIcon}
             placeholder="Ingresa tu contraseña"
@@ -49,6 +109,7 @@ const RegisterScreen = () => {
             type="password"
             minLength={8}
           />
+
           <Button
             isLoading={loading}
             primary
@@ -56,11 +117,12 @@ const RegisterScreen = () => {
             type="submit"
             width="100%"
           />
-          <Link to="/register">
+
+          <Link to="/">
             <Flex gap={"1"}>
-              <TextContent content="¿No tienes cuenta? " gray small />
+              <TextContent content="¿Ya tienes cuenta? " gray small />
               <TextContent
-                content="regístrate aquí."
+                content="inicia seision aqui."
                 gray
                 small
                 fontWeight="bold"
@@ -68,7 +130,7 @@ const RegisterScreen = () => {
             </Flex>
           </Link>
         </form>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -4,13 +4,12 @@ import Spinner from "../../components/Spinner";
 import { useState } from "react";
 
 const PrivateRouter = ({ children }) => {
-  const [loader, setLodaer] = useState(true);
-  const user = true;
+  const user = false;
 
   // onAuthStateChanged
 
   // Si esta autenticado, retorna el children (componente hijo)
-  return user ? children : loader ? <Spinner /> : <Navigate to="/" />;
+  return user ? children : <Navigate to="/" />;
 };
 
 export default PrivateRouter;

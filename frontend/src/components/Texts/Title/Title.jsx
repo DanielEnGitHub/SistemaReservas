@@ -7,9 +7,11 @@ const Title = ({
   fontWeight = "bold",
   sizeBase = "4xl",
   smBase = "5xl",
+  className,
 }) => {
   return (
     <Text
+      className={className}
       fontSize={{ base: sizeBase, sm: smBase }}
       color={black ? "brand.black" : "secondary.500"}
       fontWeight={fontWeight}
