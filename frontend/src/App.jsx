@@ -6,16 +6,19 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./theme";
 import "./styles/index.css";
 
+// provider
+import { UserContextProvider } from "./context/User";
+
 function App() {
   return (
-    <>
+    <UserContextProvider>
       <BrowserRouter>
         <ChakraProvider theme={theme} resetCSS={true}>
           <Toaster position="top-center" reverseOrder={true} />
           <Rutas />
         </ChakraProvider>
       </BrowserRouter>
-    </>
+    </UserContextProvider>
   );
 }
 

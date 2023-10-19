@@ -8,7 +8,27 @@ import PrivateRouter from "./config/PrivateRouter";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
 
+// context
+import { UserContext } from "../context/User";
+
+// hooks
+import { useTokenLocalStorage } from "../hooks/userTokenLocalStorage";
+
+// react
+import { useContext, useEffect } from "react";
+
 const Rutas = () => {
+  const { setUser, setToken } = useContext(UserContext);
+
+  const { getToken } = useTokenLocalStorage("token");
+
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="*" element={<PublicRoutes />} />

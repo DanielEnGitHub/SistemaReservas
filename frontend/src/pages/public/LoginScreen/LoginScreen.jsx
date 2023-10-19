@@ -10,7 +10,23 @@ import TextContent from "../../../components/Texts/TextContent/TextContent.jsx";
 import { Link } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
 
+// services
+import { loginService } from "../../../services/user";
+
+// context
+import { UserContext } from "../../../context/User";
+
+// hooks
+import { useTokenLocalStorage } from "../../../hooks/userTokenLocalStorage.js";
+
+// react
+import { useContext } from "react";
+
 const LoginScreen = () => {
+  const { setUser, setToken } = useContext(UserContext);
+
+  const { createToken } = useTokenLocalStorage("token");
+
   const loading = false;
 
   const {
@@ -19,8 +35,11 @@ const LoginScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const res = await loginService(data);
+    setUser(res.user);
+    setToken(res.token)
+    createToken(res.token);
   };
 
   return (
