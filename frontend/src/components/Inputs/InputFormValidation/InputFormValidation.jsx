@@ -107,11 +107,19 @@ const InputFormValidation = ({
             key_name,
             validation
               ? {
-                  required: "This is required",
+                  required: "Este campo es requerido",
                   minLength: {
                     value: minLength,
                     message: `Debe tener al menos ${minLength} caracteres`,
                   },
+
+                  ...(type === "email" && {
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Ingrese un correo electrónico válido",
+                    },
+                  }),
+
                   ...(type === "number" && {
                     min: {
                       value: min,

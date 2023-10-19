@@ -10,7 +10,7 @@ import TextContent from "../../../components/Texts/TextContent/TextContent.jsx";
 import { Link } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const loading = false;
 
   const {
@@ -73,4 +73,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
