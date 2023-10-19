@@ -4,6 +4,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
 
 # models
 from apps.user.models import CustomUser
+from rest_framework.authtoken.models import Token
 
 # serializers
 from .serializers import UserSerializer, UserListSerializer
@@ -28,10 +29,13 @@ def user_api_view(request):
     elif request.method == 'POST':
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            token, _ = Token.objects.get_or_create(user=user)
             return Response({
                 'message': 'Usuario creado exitosamente',
-                'user': user_serializer.data}, status=HTTP_201_CREATED)
+                'user': user_serializer.data,
+                'token': token.key},
+                status=HTTP_201_CREATED)
         return Response(user_serializer.errors)
 
 

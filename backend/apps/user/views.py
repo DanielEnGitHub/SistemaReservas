@@ -28,17 +28,12 @@ class Login(ObtainAuthToken):
             if user.is_active:
                 token, created = Token.objects.get_or_create(user=user)
                 user_serializer = UserTokenSerializer(user)
-                if created:
-                    return Response({
-                        'message': 'Inicio de sesión exitosa',
-                        'user': user_serializer.data,
-                        'token': token.key},
-                        status=HTTP_200_OK)
-                else:
-                    return Response({
-                        'message': 'Inicio de sesión exitoso, el token ya existe'
-                    },
-                        status=HTTP_409_CONFLICT)
+                return Response({
+                    'message': 'Inicio de sesión exitosa',
+                    'user': user_serializer.data,
+                    'token': token.key},
+                    status=HTTP_200_OK)
+
             else:
                 return Response({'message': 'La usuario está inactiva'}, status=HTTP_401_UNAUTHORIZED)
         else:

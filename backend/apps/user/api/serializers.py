@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 from apps.user.models import CustomUser
+from rest_framework.authtoken.models import Token
 
 # serializador base
 
@@ -16,6 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
         user = CustomUser(**validated_data)
         user.set_password(validated_data.get('password'))
         user.save()
+
+        Token.objects.create(user=user)
         return user
 
 # serializador para listado

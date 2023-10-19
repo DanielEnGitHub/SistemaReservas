@@ -10,7 +10,23 @@ import TextContent from "../../../components/Texts/TextContent/TextContent.jsx";
 import { Link } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
 
+// services
+import { registerService } from "../../../services/user";
+
+// context
+import { UserContext } from "../../../context/User";
+
+// hooks
+import { useTokenLocalStorage } from "../../../hooks/userTokenLocalStorage.js";
+
+// react
+import { useContext } from "react";
+
 const RegisterScreen = () => {
+  const { setUser, setToken } = useContext(UserContext);
+
+  const { createToken } = useTokenLocalStorage("token");
+
   const loading = false;
 
   const {
@@ -19,8 +35,11 @@ const RegisterScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const res = await registerService(data);
+    setUser(res.user);
+    setToken(res.token);
+    createToken(res.token);
   };
 
   return (
@@ -35,10 +54,21 @@ const RegisterScreen = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputFormValidation
             Icon={PerfilIcon}
+            placeholder="Nombre de usuario"
+            errors={errors}
+            register={register}
+            key_name="username"
+            label="Ingresa tu nombre de usuario"
+            type="text"
+            minLength={5}
+          />
+
+          <InputFormValidation
+            Icon={PerfilIcon}
             placeholder="¿Como te llamas?"
             errors={errors}
             register={register}
-            key_name="text"
+            key_name="first_name"
             label="Ingresa tu nombre"
             type="text"
             minLength={5}
@@ -49,7 +79,7 @@ const RegisterScreen = () => {
             placeholder="¿Cual es tu apellido?"
             errors={errors}
             register={register}
-            key_name="text"
+            key_name="last_name"
             label="Ingresa tu apellido"
             type="text"
             minLength={5}
@@ -60,7 +90,7 @@ const RegisterScreen = () => {
             placeholder="¿Cual es la fecha de tu cumpleaños?"
             errors={errors}
             register={register}
-            key_name="text"
+            key_name="date_of_birth"
             label="Ingresa tu fecha de cumpleaños"
             type="date"
             minLength={5}
@@ -71,7 +101,7 @@ const RegisterScreen = () => {
             placeholder="¿Cual es tu nacionalidad?"
             errors={errors}
             register={register}
-            key_name="text"
+            key_name="nationality"
             label="Ingresa tu nacionalidad"
             type="text"
             minLength={5}
@@ -93,7 +123,7 @@ const RegisterScreen = () => {
             placeholder="Ingresa el numero de documento de viaje"
             errors={errors}
             register={register}
-            key_name="number"
+            key_name="passport_number"
             label="Escribe el numero de documento de viaje"
             type="text"
             minLength={6}

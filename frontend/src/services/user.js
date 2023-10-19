@@ -21,6 +21,28 @@ export const loginService = async (data) => {
   }
 };
 
+export const registerService = async (data) => {
+  try {
+    const response = await fetch(`${userView}user/user/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const registerUser = await response.json();
+    return registerUser;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+
 export const logoutService = async (token) => {
   try {
     const response = await fetch(`${userView}logout/`, {
