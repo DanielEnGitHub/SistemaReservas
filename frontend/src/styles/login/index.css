@@ -1,9 +1,9 @@
 .login-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
-/* Main form container */
 .form-container {
   width: 100%;
   height: 100%;
@@ -11,6 +11,8 @@
   flex-direction: column;
   align-items: center;
   padding: 0 20px;
+  overflow: auto;
+  text-align: center;
 }
 
 .form-container form {

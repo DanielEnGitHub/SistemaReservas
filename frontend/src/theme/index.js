@@ -4,8 +4,8 @@ import { Button } from "./components/button";
 export const theme = extendTheme({
   colors: {
     brand: {
-      primary: "#1562E8",
-      secondary: "#FBD62E",
+      primary: "#FBD62E",
+      secondary: "#1562E8",
       error: "#F41213",
       black: "#1A1D22",
       black_light: "#393D42",
@@ -35,7 +35,7 @@ export const theme = extendTheme({
       200: "#387EF5",
       300: "#246DEA",
       400: "#0A53D1",
-      500: "#1562E8",
+      500: "#2196f3",
       600: "#094BBD",
       700: "#0740A3",
       800: "#0C3D92",
@@ -54,6 +54,6 @@ export const theme = extendTheme({
     sidebar: "-5px 0px 20px 10px rgba(0, 0, 0, 0.05);",
     card: "0px 20px 50px 15px rgba(0, 0, 0, 0.05);",
     table: "0px 2px 10px 3px rgba(0, 0, 0, 0.04);",
-    tab: "0px -10px 50px 15px rgba(0, 0, 0, 0.06);"
+    tab: "0px -10px 50px 15px rgba(0, 0, 0, 0.06);",
   },
 });

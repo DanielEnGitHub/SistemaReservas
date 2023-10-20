@@ -142,7 +142,7 @@ const RegisterScreen = () => {
 
           <Button
             isLoading={loading}
-            primary
+            secondary
             text="Entrar"
             type="submit"
             width="100%"
