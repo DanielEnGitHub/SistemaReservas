@@ -148,6 +148,7 @@ export default function BasicStatistics() {
                 origen: vuelosFiltrados[0].lista_vuelos.origen,
                 destino: vuelosFiltrados[0].lista_vuelos.destino,
                 fecha: vuelosFiltrados[0].lista_vuelos.fecha,
+                precio: vuelos.precio,
               });
             }}
             cursor={"pointer"}

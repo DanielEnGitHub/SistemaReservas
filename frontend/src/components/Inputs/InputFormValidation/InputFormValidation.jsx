@@ -34,6 +34,7 @@ const InputFormValidation = ({
   step = "",
   noScroll = false,
   minLength = 4,
+  maxLength = 255,
   min,
   max,
   onChange,
@@ -111,6 +112,10 @@ const InputFormValidation = ({
                   minLength: {
                     value: minLength,
                     message: `Debe tener al menos ${minLength} caracteres`,
+                  },
+                  maxLength: {
+                    value: maxLength,
+                    message: `No puede tener más de ${maxLength} caracteres`,
                   },
 
                   ...(type === "email" && {
