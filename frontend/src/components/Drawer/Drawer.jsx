@@ -16,7 +16,7 @@ import Subtitle from "../Texts/Subtitle";
 
 const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
   const [contador, setContador] = useState(0);
-  const asientos = asientosList();
+  const asientos = asientosList;
 
   const filtrarPorNumeroVuelo = (numeroVuelo, origen, destino, fecha) => {
     const resultado = asientos.filter((item) => {
@@ -70,7 +70,7 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
   const sortedSeats = seats.sort(compararAsientos);
 
   const handleSeatClick = (index) => {
-    const updatedSeats = [...seatsOrdenados];
+    const updatedSeats = seatsOrdenados.map((seat) => ({ ...seat }));
 
     if (!updatedSeats[index].disponibleEdit) {
       updatedSeats[index].disponibleEdit = true;
