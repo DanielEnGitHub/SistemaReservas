@@ -1,24 +1,26 @@
 import {
   Box,
   Divider,
+  Image,
   SimpleGrid,
   Stat,
-  StatArrow,
   StatGroup,
   StatHelpText,
   StatLabel,
   StatNumber,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Title from "../../../components/Texts/Title/Title";
 import InputFormValidation from "../../../components/Inputs/InputFormValidation/InputFormValidation";
 
-import { DateIcon, Pin, UsersIcon } from "../../../Utils/icons";
+import { DateIcon, Pin } from "../../../Utils/icons";
 import { useForm } from "react-hook-form";
 import InputAsyncSelect from "../../../components/Inputs/InputSelect/InputAsyncSelect";
 import Button from "../../../components/Buttons/Button/Button.jsx";
 import Subtitle from "../../../components/Texts/Subtitle";
-import { aiportsOptions, asientosList, flights } from "../../../Utils/aerline";
+import { aiportsOptions, flights } from "../../../Utils/aerline";
 import { useState } from "react";
+import DrawerComponent from "../../../components/Drawer";
 
 export default function BasicStatistics() {
   const [vuelosFiltrados, setVuelosFiltrados] = useState([]);
@@ -28,6 +30,8 @@ export default function BasicStatistics() {
     control,
     formState: { errors },
   } = useForm();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onSubmit = async (data) => {
     const { origen, destino, fecha } = data;
@@ -58,6 +62,7 @@ export default function BasicStatistics() {
         py={10}
         fontWeight={"bold"}
       />
+      <DrawerComponent isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <SimpleGrid
@@ -129,6 +134,15 @@ export default function BasicStatistics() {
             borderColor={"gray.300"}
             mt={"20px"}
             borderRadius={"10px"}
+            onClick={() => onOpen()}
+            cursor={"pointer"}
+            _hover={{
+              bg: "gray.100",
+              boxShadow: "lg",
+              transform: "scale(1.006)",
+              transition:
+                "box-shadow 0.2s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out", // Agrega la transición para todas las propiedades aquí
+            }}
           >
             <Stat>
               <StatLabel>Fecha</StatLabel>
@@ -158,8 +172,16 @@ export default function BasicStatistics() {
           </StatGroup>
         ))
       ) : (
-        <Box mt={"20px"} textAlign={"center"}>
+        <Box mt={"50px"} textAlign={"center"}>
           <Subtitle content="No hay vuelos disponibles" mt={"20px"} />
+          <Image
+            src={"https://opendoodles.s3-us-west-1.amazonaws.com/zombieing.svg"}
+            alt="logo aereolinea"
+            boxSize="50px"
+            width={"full"}
+            height={"300px"}
+            mt={"20px"}
+          />
         </Box>
       )}
     </Box>

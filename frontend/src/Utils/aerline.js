@@ -373,6 +373,11 @@ export const flights = [
           hora: "11:00",
           precio: 800,
         },
+        {
+          numero: "012",
+          hora: "12:00",
+          precio: 900,
+        }
       ],
     },
   },
