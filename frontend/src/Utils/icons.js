@@ -23,11 +23,6 @@ import SubModulesActiveIcon from "../assets/img/icons/sub-module-active-icon.svg
 
 import ActiveIcon from "../assets/img/icons/active-icon.svg";
 
-import SearchIcon from "../assets/img/icons/search-icon.svg";
-import PerfilDefault from "../assets/img/img/perfil-default.svg";
-import MenuIcon from "../assets/img/icons/menu-icon.svg";
-import DropdownIcon from "../assets/img/icons/dropdown-icon.svg";
-
 import ClockIcon from "../assets/img/icons/clock-icon.svg";
 import ReloadIcon from "../assets/img/icons/reload-icon.svg";
 
@@ -71,10 +66,6 @@ export {
   SubModulesActiveIcon,
   LogOutActiveIcon,
   ActiveIcon,
-  SearchIcon,
-  PerfilDefault,
-  MenuIcon,
-  DropdownIcon,
   ClockIcon,
   ReloadIcon,
   SearchBlueIcon,
