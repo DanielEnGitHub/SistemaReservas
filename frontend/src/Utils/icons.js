@@ -47,6 +47,8 @@ import MenuTableIcon from "../assets/img/icons/menu-table-icon.svg";
 
 import WarningIcon from "../assets/img/icons/warning-icon.svg";
 
+import Pin from "../assets/img/icons/pin.svg";
+
 export {
   ShoppingCartIcon,
   ShoppingCartIconP,
@@ -87,4 +89,5 @@ export {
   BagIcon,
   MenuTableIcon,
   WarningIcon,
+  Pin,
 };

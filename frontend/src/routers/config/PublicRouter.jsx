@@ -9,7 +9,7 @@ const PublicRouter = ({ children }) => {
   const { token } = useContext(UserContext);
 
   // Si no esta autenticado, retorna el children (componente hijo)
-  return !token ? children : <Navigate to="/app/products" />;
+  return !token ? children : <Navigate to="/app/" />;
 };
 
 export default PublicRouter;

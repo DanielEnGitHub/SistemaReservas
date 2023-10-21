@@ -1,5 +1,5 @@
-import React from "react";
-import AsyncSelect from "react-select/async";
+import React, { useState } from "react";
+import Select from "react-select";
 import { customStyles } from "./customStyles";
 import {
   FormControl,
@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { Controller } from "react-hook-form";
 import { ErrorIcon } from "../../../Utils/icons";
-import useAsyncOptions from "../../../hooks/useAsyncOptions";
 
 const InputAsyncSelect = ({
   placeholder,
@@ -19,16 +18,28 @@ const InputAsyncSelect = ({
   label = "",
   control,
   validation = false,
-  labelKey = "label",
-  labelKey2 = "",
-  valueKey = "value",
-  collection_name = "",
-  search_field_name = "",
+  selectedOptions,
+  Icon,
 }) => {
-  const { asyncOptions } = useAsyncOptions(collection_name, search_field_name);
+  const [zIndex, setZIndex] = useState(1);
+  const [text, setText] = useState("");
+
   return (
     <FormControl isInvalid={errors[key_name]} position="relative">
       {label && <FormLabel>{label}</FormLabel>}
+
+      <Image
+        src={Icon}
+        alt={"icon"}
+        width="17px"
+        marginLeft="7px"
+        marginTop="6px"
+        position={"absolute"}
+        top={10}
+        left={1}
+        zIndex={zIndex}
+      />
+
       <Controller
         control={control}
         name={key_name}
@@ -40,29 +51,39 @@ const InputAsyncSelect = ({
             : {}
         }
         render={({ field: { onChange, value, ref, name } }) => (
-          <AsyncSelect
-            cacheOptions
-            defaultOptions
+          <Select
+            options={selectedOptions}
             placeholder={placeholder}
-            onChange={(e) => {
-              if (e) {
-                const { created_at, updated_at, ...rest } = e;
-                onChange(rest);
+            onInputChange={(inputValue, { action }) => {
+              console.log(action);
+              if (action === "input-change") {
+                setZIndex(0);
+              } else if (inputValue == "" && !text) {
+                setZIndex(1);
+              }
+            }}
+            onChange={(selectedOption) => {
+              if (selectedOption) {
+                setZIndex(0);
+                setText(true);
+                const { value, label } = selectedOption;
+                onChange({ value, label });
               } else {
+                setZIndex(1);
                 onChange(null);
               }
             }}
-            loadOptions={asyncOptions}
-            styles={customStyles(errors && errors[key_name])}
+            styles={Object.assign(customStyles(errors && errors[key_name]), {
+              placeholder: (provided) => ({
+                ...provided,
+                marginLeft: "30px",
+              }),
+            })}
             isDisabled={disabled}
-            // getOptionValue={(option) => option[valueKey]}
-            getOptionLabel={(option) =>
-              `${option[labelKey]} ${option[labelKey2] || ""}`
-            }
-            // defaultValue={{
-            //   [valueKey]: "whqk2khReffPDTsHS9vs",
-            //   [labelKey]: "Celco",
-            // }}
+            getOptionLabel={(option) => {
+              return `${option.label} ${option.value}`; // Asegúrate de que las claves correspondan a las claves reales de las opciones
+            }}
+            getOptionValue={(option) => option.value} // Asegúrate de que esta clave corresponda a la clave real del valor de la opción
             value={value}
           />
         )}

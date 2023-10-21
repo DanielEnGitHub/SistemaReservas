@@ -1,8 +1,5 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import Title from "../components/Texts/Title";
-
-import { Button } from "@chakra-ui/react";
 
 // services
 import { logoutService } from "../services/user";
@@ -15,6 +12,7 @@ import { useTokenLocalStorage } from "../hooks/userTokenLocalStorage";
 
 // react
 import { useContext } from "react";
+import { Home } from "../pages/private/Home";
 
 const PrivateRoutes = () => {
   const { setUser, setToken } = useContext(UserContext);
@@ -63,27 +61,19 @@ const PrivateRoutes = () => {
         {/* ----Products---- */}
         <Route
           end
-          path="/products"
+          path="/"
           element={
             <>
-              <Title content="products" black />
-              <Button colorScheme="red" onClick={handleLogout}>
-                logout
-              </Button>
-              <Link to={"/app/test/"}>test</Link>
+              <Home />
             </>
           }
         />
         <Route
           end
-          path="/test"
+          path="/products"
           element={
             <>
-              <Title content="test" black />
-              <Button colorScheme="red" onClick={handleLogout}>
-                logout
-              </Button>
-              <Link to={"/app/products/"}>products</Link>
+              <Home />
             </>
           }
         />

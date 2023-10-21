@@ -15,6 +15,7 @@ const Button = ({
   isLoading = false,
   mr = "0",
   onClick = () => {},
+  ...props
 }) => {
   // Custom button
 
@@ -76,6 +77,7 @@ const Button = ({
       isLoading={isLoading}
       loadingText="Verificando..."
       onClick={onClick}
+      {...props}
     >
       {text}
     </ButtonChakra>

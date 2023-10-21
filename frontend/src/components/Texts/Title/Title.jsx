@@ -8,6 +8,7 @@ const Title = ({
   sizeBase = "4xl",
   smBase = "5xl",
   className,
+  ...props
 }) => {
   return (
     <Text
@@ -16,6 +17,7 @@ const Title = ({
       color={black ? "brand.black" : "secondary.500"}
       fontWeight={fontWeight}
       as="h1"
+      {...props}
     >
       {content}
     </Text>

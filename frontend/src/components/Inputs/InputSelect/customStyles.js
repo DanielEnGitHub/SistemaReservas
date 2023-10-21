@@ -35,7 +35,7 @@ export const customStyles = (error) => {
       borderColor: state.isFocused || error ? border_color : gray_color,
       outline: state.isFocused || error ? `1px solid ${border_color}` : "none",
       minHeight: 48,
-      minWidth: 300,
+      minWidth: 100,
       boxShadow: "none",
       ":hover": {
         borderColor: state.isFocused || error ? border_color : gray_color,

@@ -48,6 +48,7 @@ const RegisterScreen = () => {
         <Title
           sizeBase="3xl"
           smBase="3xl"
+          black
           className={"title-form-container"}
           content="Únete ahora para explorar los mejores viajes del mundo. ¡Regístrate y comienza a planificar tus próximas aventuras!"
         />

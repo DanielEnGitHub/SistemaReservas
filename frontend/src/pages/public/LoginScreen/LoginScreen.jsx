@@ -46,7 +46,7 @@ const LoginScreen = () => {
     <div className="login-container">
       <Box className="form-container" mt={"20vh"}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Title content="¡Hola de nuevo!" />
+          <Title content="¡Hola de nuevo!" black />
           <TextContent content="¡Bienvenido a bordo! Descubre el mundo con nosotros." gray marginBottom="12" />
           <InputFormValidation
             Icon={PerfilIcon}
