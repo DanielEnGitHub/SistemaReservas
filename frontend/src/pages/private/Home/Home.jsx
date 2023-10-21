@@ -33,6 +33,8 @@ export default function BasicStatistics() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [dataFlight, setDataFlight] = useState("");
+
   const onSubmit = async (data) => {
     const { origen, destino, fecha } = data;
 
@@ -51,7 +53,6 @@ export default function BasicStatistics() {
     });
     setVuelosFiltrados(dataFilter);
   };
-  // const asientos = asientosList();
 
   return (
     <Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
@@ -62,7 +63,13 @@ export default function BasicStatistics() {
         py={10}
         fontWeight={"bold"}
       />
-      <DrawerComponent isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+      <DrawerComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        title={`Numero de vuelo: ${dataFlight.numero}`}
+        dataFlight={dataFlight}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <SimpleGrid
@@ -134,7 +141,15 @@ export default function BasicStatistics() {
             borderColor={"gray.300"}
             mt={"20px"}
             borderRadius={"10px"}
-            onClick={() => onOpen()}
+            onClick={() => {
+              onOpen();
+              setDataFlight({
+                numero: vuelos.numero,
+                origen: vuelosFiltrados[0].lista_vuelos.origen,
+                destino: vuelosFiltrados[0].lista_vuelos.destino,
+                fecha: vuelosFiltrados[0].lista_vuelos.fecha,
+              });
+            }}
             cursor={"pointer"}
             _hover={{
               bg: "gray.100",

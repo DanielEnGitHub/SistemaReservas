@@ -1,8 +1,5 @@
 import { Navigate } from "react-router-dom";
 
-import Spinner from "../../components/Spinner";
-import { useState } from "react";
-
 // context
 import { UserContext } from "../../context/User";
 
