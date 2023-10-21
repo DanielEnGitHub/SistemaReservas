@@ -118,6 +118,16 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
 
   const onSubmit = async (data) => {
     toast.success("Compra realizada con exito");
+    const boleto = {
+      boleto: {
+        aereolinea: dataFlight.aereolinea,
+        vuelo: dataFlight.numero,
+        fecha: dataFlight.fecha,
+        hora: dataFlight.hora,
+        numero: dataFlight.numero,
+      },
+    };
+    console.log(boleto);
     onClose();
   };
 

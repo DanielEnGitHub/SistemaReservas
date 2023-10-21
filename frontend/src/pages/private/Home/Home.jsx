@@ -108,19 +108,6 @@ export default function BasicStatistics() {
             type="date"
             minLength={1}
           />
-
-          {/* <InputFormValidation
-            Icon={UsersIcon}
-            label="Pasajeros"
-            placeholder="Número de pasajeros"
-            errors={errors}
-            register={register}
-            key_name="pasajeros"
-            type="number"
-            minLength={1}
-            min={1}
-            noScroll
-          /> */}
           <Button
             secondary
             text="Buscar vuelos"
@@ -149,6 +136,8 @@ export default function BasicStatistics() {
                 destino: vuelosFiltrados[0].lista_vuelos.destino,
                 fecha: vuelosFiltrados[0].lista_vuelos.fecha,
                 precio: vuelos.precio,
+                aereolinea: vuelosFiltrados[0].lista_vuelos.aereolinea,
+                hora: vuelos.hora,
               });
             }}
             cursor={"pointer"}
