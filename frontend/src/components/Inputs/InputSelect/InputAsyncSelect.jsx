@@ -55,7 +55,6 @@ const InputAsyncSelect = ({
             options={selectedOptions}
             placeholder={placeholder}
             onInputChange={(inputValue, { action }) => {
-              console.log(action);
               if (action === "input-change") {
                 setZIndex(0);
               } else if (inputValue == "" && !text) {

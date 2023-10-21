@@ -17,9 +17,11 @@ import { useForm } from "react-hook-form";
 import InputAsyncSelect from "../../../components/Inputs/InputSelect/InputAsyncSelect";
 import Button from "../../../components/Buttons/Button/Button.jsx";
 import Subtitle from "../../../components/Texts/Subtitle";
-import { aiportsOptions, asientosList } from "../../../Utils/aerline";
+import { aiportsOptions, asientosList, flights } from "../../../Utils/aerline";
+import { useState } from "react";
 
 export default function BasicStatistics() {
+  const [vuelosFiltrados, setVuelosFiltrados] = useState([]);
   const {
     register,
     handleSubmit,
@@ -28,12 +30,25 @@ export default function BasicStatistics() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
-  };
-  
-  const asientos = asientosList();
+    const { origen, destino, fecha } = data;
 
-  console.log(asientos);
+    const dataFilter = flights.filter((flight) => {
+      const { lista_vuelos } = flight;
+      const {
+        origen: vueloOrigen,
+        destino: vueloDestino,
+        fecha: vueloFecha,
+      } = lista_vuelos;
+      return (
+        vueloOrigen === origen.value &&
+        vueloDestino === destino.value &&
+        vueloFecha === fecha
+      );
+    });
+    setVuelosFiltrados(dataFilter);
+  };
+  // const asientos = asientosList();
+
   return (
     <Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
       <Title
@@ -46,7 +61,7 @@ export default function BasicStatistics() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 5 }}
+          columns={{ base: 1, md: 2, lg: 4 }}
           spacing={{ base: 5, lg: 8 }}
         >
           <InputAsyncSelect
@@ -82,7 +97,7 @@ export default function BasicStatistics() {
             minLength={1}
           />
 
-          <InputFormValidation
+          {/* <InputFormValidation
             Icon={UsersIcon}
             label="Pasajeros"
             placeholder="Número de pasajeros"
@@ -93,7 +108,7 @@ export default function BasicStatistics() {
             minLength={1}
             min={1}
             noScroll
-          />
+          /> */}
           <Button
             secondary
             text="Buscar vuelos"
@@ -105,40 +120,48 @@ export default function BasicStatistics() {
       </form>
       <Divider mt={"20px"} className="divider" />
       <Subtitle content="Vuelos disponibles" mt={"20px"} />
-      <StatGroup
-        padding={"15px"}
-        border={"1px"}
-        borderColor={"gray.300"}
-        mt={"20px"}
-        borderRadius={"10px"}
-      >
-        <Stat>
-          <StatLabel>Sent</StatLabel>
-          <StatNumber>345,670</StatNumber>
-          <StatHelpText>
-            <StatArrow type="increase" />
-            23.36%
-          </StatHelpText>
-        </Stat>
+      {vuelosFiltrados.length > 0 ? (
+        vuelosFiltrados[0].lista_vuelos.vuelos.map((vuelos, index) => (
+          <StatGroup
+            key={index}
+            padding={"15px"}
+            border={"1px"}
+            borderColor={"gray.300"}
+            mt={"20px"}
+            borderRadius={"10px"}
+          >
+            <Stat>
+              <StatLabel>Fecha</StatLabel>
+              <StatNumber>
+                {vuelosFiltrados[0].lista_vuelos.fecha + " " + vuelos.hora}
+              </StatNumber>
+              <StatHelpText>
+                {vuelosFiltrados[0].lista_vuelos.origen} -{" "}
+                {vuelosFiltrados[0].lista_vuelos.destino}
+              </StatHelpText>
+            </Stat>
 
-        <Stat>
-          <StatLabel>Clicked</StatLabel>
-          <StatNumber>45</StatNumber>
-          <StatHelpText>
-            <StatArrow type="decrease" />
-            9.05%
-          </StatHelpText>
-        </Stat>
+            <Stat>
+              <StatLabel>Precio</StatLabel>
+              <StatNumber>Q. {vuelos.precio}</StatNumber>
+              <StatHelpText>Precio en quetzales</StatHelpText>
+            </Stat>
 
-        <Stat>
-          <StatLabel>Clicked</StatLabel>
-          <StatNumber>45</StatNumber>
-          <StatHelpText>
-            <StatArrow type="decrease" />
-            9.05%
-          </StatHelpText>
-        </Stat>
-      </StatGroup>
+            <Stat>
+              <StatLabel>Numero de vuelo</StatLabel>
+              <StatNumber>{vuelos.numero}</StatNumber>
+              <StatHelpText>
+                Aereolinea
+                {" " + vuelosFiltrados[0].lista_vuelos.aereolinea}
+              </StatHelpText>
+            </Stat>
+          </StatGroup>
+        ))
+      ) : (
+        <Box mt={"20px"} textAlign={"center"}>
+          <Subtitle content="No hay vuelos disponibles" mt={"20px"} />
+        </Box>
+      )}
     </Box>
   );
 }
