@@ -1,4 +1,5 @@
 const userView = "http://localhost:8000/";
+import toast from "react-hot-toast";
 
 export const loginService = async (data) => {
   try {
@@ -11,6 +12,7 @@ export const loginService = async (data) => {
     });
 
     if (!response.ok) {
+      toast.error("Correo o contraseña incorrectos");
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
@@ -41,7 +43,6 @@ export const registerService = async (data) => {
     throw new Error(e);
   }
 };
-
 
 export const logoutService = async (token) => {
   try {
