@@ -1,4 +1,14 @@
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  SimpleGrid,
+  Stat,
+  StatArrow,
+  StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+} from "@chakra-ui/react";
 import Title from "../../../components/Texts/Title/Title";
 import InputFormValidation from "../../../components/Inputs/InputFormValidation/InputFormValidation";
 
@@ -6,49 +16,8 @@ import { DateIcon, Pin, UsersIcon } from "../../../Utils/icons";
 import { useForm } from "react-hook-form";
 import InputAsyncSelect from "../../../components/Inputs/InputSelect/InputAsyncSelect";
 import Button from "../../../components/Buttons/Button/Button.jsx";
-
-const aiportsOptions = [
-  {
-    value: "Guatemala",
-    label: "Guatemala City (GUA - La Aurora Intl.)",
-  },
-  {
-    value: "El Salvador",
-    label: "San Salvador (SAL - El Salvador Intl.)",
-  },
-  {
-    value: "Mexico",
-    label: "Mexico City (MEX - Benito Juarez Intl.)",
-  },
-  {
-    value: "Spain",
-    label: "Madrid (MAD - Adolfo Suarez Madrid-Barajas)",
-  },
-  {
-    value: "France",
-    label: "Paris (CDG - Charles de Gaulle Airport)",
-  },
-  {
-    value: "Japan",
-    label: "Tokyo (HND - Haneda Airport)",
-  },
-  {
-    value: "Australia",
-    label: "Sydney (SYD - Sydney Airport)",
-  },
-  {
-    value: "Brazil",
-    label: "São Paulo (GRU - Guarulhos International Airport)",
-  },
-  {
-    value: "Canada",
-    label: "Toronto (YYZ - Toronto Pearson International Airport)",
-  },
-  {
-    value: "China",
-    label: "Beijing (PEK - Beijing Capital International Airport)",
-  },
-];
+import Subtitle from "../../../components/Texts/Subtitle";
+import { aiportsOptions, asientosList } from "../../../Utils/aerline";
 
 export default function BasicStatistics() {
   const {
@@ -61,7 +30,10 @@ export default function BasicStatistics() {
   const onSubmit = async (data) => {
     console.log(data);
   };
+  
+  const asientos = asientosList();
 
+  console.log(asientos);
   return (
     <Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
       <Title
@@ -131,6 +103,42 @@ export default function BasicStatistics() {
           />
         </SimpleGrid>
       </form>
+      <Divider mt={"20px"} className="divider" />
+      <Subtitle content="Vuelos disponibles" mt={"20px"} />
+      <StatGroup
+        padding={"15px"}
+        border={"1px"}
+        borderColor={"gray.300"}
+        mt={"20px"}
+        borderRadius={"10px"}
+      >
+        <Stat>
+          <StatLabel>Sent</StatLabel>
+          <StatNumber>345,670</StatNumber>
+          <StatHelpText>
+            <StatArrow type="increase" />
+            23.36%
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Clicked</StatLabel>
+          <StatNumber>45</StatNumber>
+          <StatHelpText>
+            <StatArrow type="decrease" />
+            9.05%
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Clicked</StatLabel>
+          <StatNumber>45</StatNumber>
+          <StatHelpText>
+            <StatArrow type="decrease" />
+            9.05%
+          </StatHelpText>
+        </Stat>
+      </StatGroup>
     </Box>
   );
 }
