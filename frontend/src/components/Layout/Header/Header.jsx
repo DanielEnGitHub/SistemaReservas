@@ -1,76 +1,140 @@
+import React from "react";
 import {
+  Box,
   Flex,
-  GridItem,
-  Image,
+  Text,
   IconButton,
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
-  Button,
+  Stack,
+  Collapse,
+  useColorModeValue,
+  useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
-import { useLogOut } from "../../../hooks/useLogOut";
-import { useTypeDevice } from "../../../hooks/useTypeDevice";
-import { toggleSidebar } from "../../../redux/features/sidebarSlice";
-import { role_name } from "../../../Utils/constants";
-import { PerfilDefault, MenuIcon, DropdownIcon } from "../../../Utils/icons";
-import TextContent from "../../Texts/TextContent/TextContent";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import Button from "../../Buttons/Button/Button";
 
-const Header = ({ showSidebarButton = true, area = "" }) => {
-  const dispatch = useDispatch();
-  const onShowSidebar = () => dispatch(toggleSidebar());
-  const { isMobile } = useTypeDevice();
+// services
+import { logoutService } from "../../../services/user";
 
-  const { user, logOut } = useLogOut();
+// context
+import { UserContext } from "../../../context/User";
+
+// hooks
+import { useTokenLocalStorage } from "../../../hooks/userTokenLocalStorage";
+
+// react
+import { useContext } from "react";
+
+export default function HeaderComponent() {
+  const { isOpen, onToggle } = useDisclosure();
+
+  const { setUser, setToken } = useContext(UserContext);
+
+  const { getToken, removeToken } = useTokenLocalStorage("token");
+
+  const token = getToken();
+
+  const handleLogout = async () => {
+    const data = {
+      token: token,
+    };
+    await logoutService(data);
+    setUser(null);
+    setToken(null);
+    removeToken();
+  };
 
   return (
-    <GridItem area={area} as="header" pt="5">
-      <Flex justify="space-between" align="center" height="100%" gap={5}>
-        {showSidebarButton && (
+    <Box>
+      <Flex
+        bg={useColorModeValue("white", "gray.800")}
+        color={useColorModeValue("gray.600", "white")}
+        minH={"60px"}
+        py={{ base: 2 }}
+        px={{ base: 4 }}
+        borderBottom={1}
+        borderStyle={"solid"}
+        borderColor={useColorModeValue("gray.200", "gray.900")}
+        align={"center"}
+      >
+        <Flex
+          flex={{ base: 1, md: "auto" }}
+          ml={{ base: -2 }}
+          display={{ base: "flex", md: "none" }}
+        >
           <IconButton
-            icon={<Image src={MenuIcon} width="30px" />}
-            onClick={onShowSidebar}
-            bg="transparent"
-            ml={4}
+            onClick={onToggle}
+            icon={
+              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+            }
+            variant={"ghost"}
+            aria-label={"Toggle Navigation"}
           />
-        )}
-        <div style={{ width: "100%" }} />
-
-        {!isMobile && (
-          <Flex direction="column" align="end" ml={{ base: "0", xl: "20" }}>
-            <TextContent content={role_name[user?.role]} gray small />
-            <TextContent content={user?.user_name} fontWeight="semibold" />
-          </Flex>
-        )}
-
-        <Menu autoSelect={false}>
-          <MenuButton
-            as={Button}
-            rightIcon={<Image src={DropdownIcon} width="15px" />}
-            // bg="transparent"
-            height="50px"
-            minWidth="80px"
-            p="0"
-            mr={{ base: "5", xl: "0" }}
-            bg="brand.white"
-            _hover={{ bg: "brand.white" }}
-            _active={{ bg: "brand.white" }}
+        </Flex>
+        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+          <Text
+            textAlign={useBreakpointValue({ base: "center", md: "left" })}
+            fontFamily={"heading"}
+            color={useColorModeValue("gray.800", "white")}
           >
-            <Image src={PerfilDefault} minWidth="50px" />
-          </MenuButton>
-          <MenuList zIndex={100}>
-            {isMobile && (
-              <MenuItem>{`${role_name[user?.role]} - ${
-                user?.user_name
-              }`}</MenuItem>
-            )}
-            <MenuItem onClick={logOut}>Cerrar sesion</MenuItem>
-          </MenuList>
-        </Menu>
+            Sistema de Reservas
+          </Text>
+
+          <Flex display={{ base: "none", md: "flex" }} ml={10}></Flex>
+        </Flex>
+
+        <Stack
+          flex={{ base: 1, md: 0 }}
+          justify={"flex-end"}
+          direction={"row"}
+          spacing={6}
+        >
+          <Button
+            primary
+            text="Cerrar sesión"
+            type="submit"
+            width="100%"
+            onClick={handleLogout}
+          />
+        </Stack>
       </Flex>
-    </GridItem>
+
+      <Collapse in={isOpen} animateOpacity>
+        <MobileNav />
+      </Collapse>
+    </Box>
+  );
+}
+
+const MobileNav = () => {
+  const { setUser, setToken } = useContext(UserContext);
+
+  const { getToken, removeToken } = useTokenLocalStorage("token");
+
+  const token = getToken();
+
+  const handleLogout = async () => {
+    const data = {
+      token: token,
+    };
+    await logoutService(data);
+    setUser(null);
+    setToken(null);
+    removeToken();
+  };
+  return (
+    <Stack
+      bg={useColorModeValue("white", "gray.800")}
+      p={4}
+      display={{ md: "none" }}
+    >
+      <Button
+        primary
+        text="Cerrar sesión"
+        type="submit"
+        width="100%"
+        onClick={handleLogout}
+      />
+    </Stack>
   );
 };
-
-export default Header;
