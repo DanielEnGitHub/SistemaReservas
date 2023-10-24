@@ -17,10 +17,12 @@ import Subtitle from "../Texts/Subtitle";
 import Pay from "./Pay.jsx";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Ticket from "../Ticket/Ticket.jsx";
 
 const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
   const [contador, setContador] = useState(0);
   const [step, setStep] = useState(1);
+  const [seatList, setSeatList] = useState([]);
   const asientos = asientosList;
 
   const handleNextStep = () => {
@@ -86,15 +88,23 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
 
   const sortedSeats = seats.sort(compararAsientos);
 
-  const handleSeatClick = (index) => {
+  const handleSeatClick = (index, seat) => {
     const updatedSeats = seatsOrdenados.map((seat) => ({ ...seat }));
 
     if (!updatedSeats[index].disponibleEdit) {
       updatedSeats[index].disponibleEdit = true;
       setContador(contador + 1);
+
+      setSeatList([...seatList, updatedSeats[index]]);
     } else {
       updatedSeats[index].disponibleEdit = false;
       setContador(contador - 1);
+      const updatedSeatList = seatList.filter(
+        (selectedSeat) =>
+          selectedSeat.fila + selectedSeat.posicion !==
+          updatedSeats[index].fila + updatedSeats[index].posicion
+      );
+      setSeatList(updatedSeatList);
     }
 
     setSeatsOrdenados(updatedSeats);
@@ -107,6 +117,7 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
     return () => {
       setContador(0);
       setStep(1);
+      setSeatList([]);
     };
   }, [isOpen]);
 
@@ -127,8 +138,9 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
         numero: dataFlight.numero,
       },
     };
-    console.log(boleto);
-    onClose();
+    setStep(3);
+    // console.log(boleto);
+    // onClose();
   };
 
   return (
@@ -157,7 +169,7 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
                     </Box>
 
                     <Box mr={"10px"}>
-                      <Box style={colorBoxStyle} bg={"green.500"} />
+                      <Box style={colorBoxStyle} bg={"red.500"} />
                       <span>No Disponibles</span>
                     </Box>
 
@@ -185,7 +197,7 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
                                 ? "yellow.300"
                                 : seat.disponible
                                 ? "green.100"
-                                : "green.500"
+                                : "red.500"
                             }
                             border="1px"
                             borderColor="gray.400"
@@ -221,6 +233,21 @@ const DrawerComponent = ({ isOpen, onOpen, onClose, title, dataFlight }) => {
                     />
                   </Box>
                 </Center>
+              )}
+
+              {step === 3 && (
+                <Box maxH="70vh" overflowY="auto">
+                  <Center>
+                    {/* Contenido del tercer paso */}
+                    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={3} mt={6}>
+                      {seatList.map((seat, index) => (
+                        <Box key={index}>
+                          <Ticket dataFlight={dataFlight} seat={seat} />
+                        </Box>
+                      ))}
+                    </SimpleGrid>
+                  </Center>
+                </Box>
               )}
             </DrawerBody>
             <Center mb={"20px"}>
